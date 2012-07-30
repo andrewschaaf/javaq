@@ -60,7 +60,7 @@ run = ({build_dir, jar_paths, main_fqn, child_args}) ->
   args = _.flatten [
     '-classpath', classpath.join(':')
       main_fqn
-    args
+    child_args
   ]
   p = spawn 'java', args, {stdio: 'inherit'}
   p.on 'exit', (code) ->
