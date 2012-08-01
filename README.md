@@ -1,20 +1,22 @@
 
-You know how simple it is to run
+You know how simple it is to run:
 
     ... | python  foo.py          arg, arg | ...
     ... | ruby    foo.rb          arg, arg | ...
     ... | node    foo.js          arg, arg | ...
     ... | coffee  foo.coffee      arg, arg | ...
 
-You've wished you could run
+You've wished you could do the same with `.java` files.
 
-    ... | j       Foo.java        arg, arg | ...
+Now you can!
 
-Now you can.
+    ... | javaq   Foo.java        arg, arg | ...
+
+
+## Installing
 
 - Get [NodeJS](http://nodejs.org) >= 0.8.0
 - `npm install -g javaq`
-- Add `alias j='javaq'` to your profile
 
 
 ## What if I'm lazy and don't want to specify which `.java` to run?
@@ -26,7 +28,7 @@ Then don't. If exactly one of the `.java` files in `ls -lR .` contains a `main`,
 
 Currently, yes.
 
-Soon, `.class`s will be cached.
+Soon, `.class` files will be cached.
 
 I want to eventually shave off every possible millisecond.
 
