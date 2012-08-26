@@ -87,22 +87,24 @@ test 'filter', () ->
 
 
 test 'split_args', () ->
-  for [args, [e1, e2, e3]] in [
-        [[],                      [[], null, []]]
-        [['x', 'y'],              [[], null, ['x', 'y']]]
-        [['Foo.java'],            [[], 'Foo.java', []]]
-        [['x/y/Foo.java'],        [[], 'x/y/Foo.java', []]]
-        [['Foo.java', 'x', 'y'],  [[], 'Foo.java', ['x', 'y']]]
+  for [args, [e1, e2, e3, e4]] in [
+        [['-Xmx1024m', 'X.java'], [['-Xmx1024m'], [], 'X.java', []]]
+        [[],                      [[], [], null, []]]
+        [['x', 'y'],              [[], [], null, ['x', 'y']]]
+        [['Foo.java'],            [[], [], 'Foo.java', []]]
+        [['x/y/Foo.java'],        [[], [], 'x/y/Foo.java', []]]
+        [['Foo.java', 'x', 'y'],  [[], [], 'Foo.java', ['x', 'y']]]
         [
           ['a', 'b', 'Foo.java', 'x', 'y'],
-          [['a', 'b'], 'Foo.java', ['x', 'y']]]
+          [[], ['a', 'b'], 'Foo.java', ['x', 'y']]]
         [
           ['a', 'b', 'Foo.java', 'Bar.java', 'y'],
-          [['a', 'b'], 'Foo.java', ['Bar.java', 'y']]]]
-    {our_args, java_file, child_args} = split_args args
-    assert.deepEqual our_args,    e1
-    assert.deepEqual java_file,   e2
-    assert.deepEqual child_args,  e3
+          [[], ['a', 'b'], 'Foo.java', ['Bar.java', 'y']]]]
+    {java_args, our_args, java_file, child_args} = split_args args
+    assert.deepEqual java_args,   e1
+    assert.deepEqual our_args,    e2
+    assert.deepEqual java_file,   e3
+    assert.deepEqual child_args,  e4
 
 
 test 'parse_our_args', () ->

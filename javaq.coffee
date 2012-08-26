@@ -19,7 +19,7 @@ main = () ->
   fatal_error "process.env.HOME is required" if not (process.env.HOME and process.env.HOME.length > 0)
   
   # settings
-  {our_args, java_file, child_args} = split_args process.argv.slice 2
+  {our_args, java_file, child_args, java_args} = split_args process.argv.slice 2
   our_args_info = parse_our_args our_args
   lib = our_args_info['build-dir'] or DEFAULT_LIB
   builds_dir = our_args_info['build-dir'] or DEFAULT_BUILDS_DIR
@@ -39,7 +39,7 @@ main = () ->
         fatal_error "No classes found with a main"        if classes.length < 0
         fatal_error "Multiple classes found with a main"  if classes.length > 1
         [main_fqn] = classes
-        run {build_dir, jar_paths, main_fqn, child_args}
+        run {build_dir, jar_paths, main_fqn, child_args, java_args}
 
 
 build = ({build_dir, jar_paths, source_file_paths}, c) ->
@@ -55,9 +55,10 @@ build = ({build_dir, jar_paths, source_file_paths}, c) ->
       c null
 
 
-run = ({build_dir, jar_paths, main_fqn, child_args}) ->
+run = ({build_dir, jar_paths, main_fqn, child_args, java_args}) ->
   classpath = _.flatten ["#{build_dir}/classes", jar_paths]
   args = _.flatten [
+    java_args
     '-classpath', classpath.join(':')
       main_fqn
     child_args

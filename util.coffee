@@ -39,18 +39,22 @@ load_java_files = (dir, c) ->
 
 
 split_args = (args) ->
-  [our_args, java_file, child_args] = [[], null, []]
+  [java_args, our_args, java_file, child_args] = [[], [], null, []]
   for arg in args
     if java_file
       child_args.push arg
     else if arg.match /\.java$/
       java_file = arg
     else
-      our_args.push arg
+      # pre-(java_file)
+      if arg.match /^-/
+        java_args.push arg
+      else
+        our_args.push arg
   if not java_file
     child_args = our_args
     our_args = []
-  {our_args, java_file, child_args}
+  {java_args, our_args, java_file, child_args}
 
 
 parse_our_args = (args) ->

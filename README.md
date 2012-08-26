@@ -42,6 +42,9 @@ Everything in `ls -lR .`. Later, this will be limited to those needed to run the
 
 These must be specified before the first argument that matches `/\.java$/`. Otherwise they will be passed on to the program you're running.
 
+Pre-`.java` arguments matching `^-Xmx` are passed to `java`.
+
+
 ### `--builds-dir=...`
 
 Optional. Defaults to <code>~/Library/Application Support/javaq/builds</code>. <code>javaq</code> will use this folder as it sees fit.
