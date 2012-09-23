@@ -6,7 +6,7 @@ mkdirp = require 'mkdirp'
 {
     split_args, parse_our_args, paths_in, filter,
     load_java_files, spawn_exec, spawn_exec_write_on_err,
-    classes_with_main
+    classes_with_main, fqn_from_java
 } = require './util'
 
 
@@ -35,10 +35,13 @@ main = () ->
         throw e if e
         
         # run
-        classes = classes_with_main java_files
-        fatal_error "No classes found with a main"        if classes.length < 0
-        fatal_error "Multiple classes found with a main"  if classes.length > 1
-        [main_fqn] = classes
+        if java_file
+          main_fqn = fqn_from_java java_files[java_file]
+        else
+          classes = classes_with_main java_files
+          fatal_error "No classes found with a main"        if classes.length < 0
+          fatal_error "Multiple classes found with a main"  if classes.length > 1
+          [main_fqn] = classes
         run {build_dir, jar_paths, main_fqn, child_args, java_args}
 
 

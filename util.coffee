@@ -14,13 +14,21 @@ filter = (arr, pattern) ->
 
 classes_with_main = (files) ->
   classes = []
-  for own k, java of files
-    m_main      = java.match /public static void main\(String/
-    m_package   = java.match /package ([^ ;\r\n]+);/
-    m_classname = java.match /public class ([^ ]+)/
-    if m_main and m_package and m_classname
-      classes.push "#{m_package[1]}.#{m_classname[1]}"
+  for own k, java of files  
+    fqn = fqn_from_java java
+    m_main = java.match /public static void main\(String/
+    if fqn and m_main
+      classes.push fqn
   classes
+
+
+fqn_from_java = (java) ->
+  m_package = java.match /package ([^ ;\r\n]+);/
+  m_classname = java.match /public class ([^ ]+)/
+  if m_package and m_classname
+    "#{m_package[1]}.#{m_classname[1]}"
+  else
+    null
 
 
 load_java_files = (dir, c) ->
@@ -114,5 +122,5 @@ _paths_in = (path, paths, callback) ->
 module.exports = {
   split_args, parse_our_args, paths_in, filter,
   load_java_files, spawn_exec, spawn_exec_write_on_err,
-  classes_with_main
+  classes_with_main, fqn_from_java
 }
